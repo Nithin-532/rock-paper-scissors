@@ -58,6 +58,7 @@ function game() {
       computerWins++;
     }
   }
+  console.log(playerWins + " " + computerWins);
   if (playerWins > computerWins) {
     console.log("In the long battle between human and AI, human withstands");
   } else if (computerWins > playerWins) {
