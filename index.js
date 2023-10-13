@@ -46,19 +46,27 @@ function game() {
   let computerWins = 0;
   for (let i = 0; i < 5; i++) {
     const playerSelection = prompt("Enter your choice:");
+    if (playerSelection == undefined) {
+      alert("You stopped the play");
+      return;
+    }
     const validSelection = validatePlayerSelection(playerSelection);
 
     const computerSelection = getComputerChoice();
     console.log(validSelection);
     console.log(computerSelection);
-    let winner = playRound(playerSelection, computerSelection);
-    if (winner == "Player Wins") {
+    let winner = playRound(validSelection, computerSelection);
+    if (winner == "Player Wins!!") {
       playerWins++;
-    } else {
+      alert(`Player Wins \n Player - ${playerWins} --- Computer - ${computerWins}`);
+    } else if (winner == 'Tie') {
+      alert(`It's a Tie!!! \n Player - ${playerWins} --- Computer - ${computerWins}`);
+    }
+    else {
       computerWins++;
+      alert(`Computer Wins \n Player - ${playerWins} --- Computer - ${computerWins}`);
     }
   }
-  console.log(playerWins + " " + computerWins);
   if (playerWins > computerWins) {
     console.log("In the long battle between human and AI, human withstands");
   } else if (computerWins > playerWins) {
@@ -68,4 +76,10 @@ function game() {
   }
 }
 
-game()
+const playGame = prompt("Wanna play a game??");
+if (playGame != undefined && playGame.toLowerCase() == 'yes') {
+  game();  
+}
+else {
+  alert("See you again");
+}
