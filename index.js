@@ -1,5 +1,19 @@
+let playerWins = 0;
+let computerWins = 0;
+
 function generateRandomNumber(min, max) {
   return Math.floor(Math.random() * max) + min;
+}
+
+function displayResults(winner) {
+  body.innerHTML = "";
+  const p = document.createElement('p');
+  p.textContent = `Winner is - ${winner}`;
+  body.appendChild(p);
+  const retry = document.createElement('button');
+  retry.textContent = 'RETRY';
+  body.appendChild(retry);
+  retry.addEventListener('click', () => {location.reload()});
 }
 
 function getComputerChoice() {
@@ -17,69 +31,47 @@ function getComputerChoice() {
   return scissors;
 }
 
-function playRound(playerSelection, computerSelection) {
+function playRound(e) {
   // your code here!
+  const playerSelection = e.target.textContent;
+  const computerSelection = getComputerChoice();
+  console.log(playerSelection + " " + computerSelection);
   if (playerSelection == computerSelection) {
-    return "Tie";
+    // return "Tie";
   }
   else if ((playerSelection == 'rock' && computerSelection == 'scissors') ||
            (playerSelection == 'scissors' && computerSelection == 'paper') ||
            (playerSelection == 'paper' && computerSelection == 'rock')) {
-    return "Player Wins!!";
-  }
-  return "Humanity lost to AI!!!!!";
-}
-
-function validatePlayerSelection(playerSelection) {
-  const selection = playerSelection.toLowerCase();
-  if (selection == 'rock' || selection == 'paper' || selection == 'scissors') {
-    return selection;
+    playerWins++;
+    // return "Player Wins!!";
   } else {
-    const getPlayerSelection = prompt("Please enter a valid choice");
-    validatePlayerSelection(getPlayerSelection);
+    computerWins++;
+  }
+  // return "Humanity lost to AI!!!!!";
+  p.textContent = `Player ${playerWins} - Computer ${computerWins}`;
+  display.appendChild(p);
+  body.appendChild(display);
+  if (computerWins == 5 || playerWins == 5) {
+    computerWins == 5 ? displayResults('Computer') : displayResults('Player');
   }
 }
 
-function game() {
-  //Make this function to play a 5 round game
-  let playerWins = 0;
-  let computerWins = 0;
-  for (let i = 0; i < 5; i++) {
-    const playerSelection = prompt("Enter your choice:");
-    if (playerSelection == undefined) {
-      alert("You stopped the play");
-      return;
-    }
-    const validSelection = validatePlayerSelection(playerSelection);
+const button1 = document.createElement('button');
+const button2 = document.createElement('button');
+const button3 = document.createElement('button');
+button1.textContent = 'rock';
+button2.textContent = 'paper';
+button3.textContent = 'scissors';
 
-    const computerSelection = getComputerChoice();
-    console.log(validSelection);
-    console.log(computerSelection);
-    let winner = playRound(validSelection, computerSelection);
-    if (winner == "Player Wins!!") {
-      playerWins++;
-      alert(`Player Wins \n Player - ${playerWins} --- Computer - ${computerWins}`);
-    } else if (winner == 'Tie') {
-      alert(`It's a Tie!!! \n Player - ${playerWins} --- Computer - ${computerWins}`);
-    }
-    else {
-      computerWins++;
-      alert(`Computer Wins \n Player - ${playerWins} --- Computer - ${computerWins}`);
-    }
-  }
-  if (playerWins > computerWins) {
-    console.log("In the long battle between human and AI, human withstands");
-  } else if (computerWins > playerWins) {
-    console.log("Humanity is dommed!!!");
-  } else {
-    console.log("Should wait for another battle!!");
-  }
-}
+const p = document.createElement('p');
 
-const playGame = prompt("Wanna play a game??");
-if (playGame != undefined && playGame.toLowerCase() == 'yes') {
-  game();  
-}
-else {
-  alert("See you again");
-}
+button1.addEventListener('click', playRound);
+button2.addEventListener('click', playRound);
+button3.addEventListener('click', playRound);
+
+const display = document.createElement('div');
+const body = document.querySelector('body');
+body.appendChild(button1);
+body.appendChild(button2);
+body.appendChild(button3);
+
