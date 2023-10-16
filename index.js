@@ -12,12 +12,11 @@ function displayResults(winner) {
   p.textContent = `Winner is - ${winner}`;
   display.appendChild(p);
   const retry = document.createElement('button');
-  retry.textContent = 'RETRY';
+  retry.textContent = (winner == 'Player') ? 'Play Again' : 'Retry';
   retry.classList.add('button');
   display.appendChild(retry);
   display.classList.add('center');
   body.appendChild(display);
-  body.style.height = '100%';
   retry.addEventListener('click', () => {location.reload()});
 }
 
