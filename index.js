@@ -8,11 +8,17 @@ function generateRandomNumber(min, max) {
 function displayResults(winner) {
   body.innerHTML = "";
   const p = document.createElement('p');
+  const display = document.createElement('div');
   p.textContent = `Winner is - ${winner}`;
-  body.appendChild(p);
+  display.appendChild(p);
+  p.classList.add('text-animation');
   const retry = document.createElement('button');
   retry.textContent = 'RETRY';
-  body.appendChild(retry);
+  retry.classList.add('button');
+  display.appendChild(retry);
+  display.classList.add('center');
+  body.appendChild(display);
+  body.style.height = '100%';
   retry.addEventListener('click', () => {location.reload()});
 }
 
@@ -31,10 +37,11 @@ function getComputerChoice() {
   return scissors;
 }
 
-function playRound(e) {
+function playRound(string) {
   // your code here!
-  const playerSelection = e.target.textContent;
+  const playerSelection = string;
   const computerSelection = getComputerChoice();
+  let computerChoice;
   console.log(playerSelection + " " + computerSelection);
   if (playerSelection == computerSelection) {
     // return "Tie";
@@ -43,35 +50,37 @@ function playRound(e) {
            (playerSelection == 'scissors' && computerSelection == 'paper') ||
            (playerSelection == 'paper' && computerSelection == 'rock')) {
     playerWins++;
+    pScore.textContent = playerWins;
     // return "Player Wins!!";
   } else {
     computerWins++;
+    cScore.textContent = computerWins;
   }
   // return "Humanity lost to AI!!!!!";
-  p.textContent = `Player ${playerWins} - Computer ${computerWins}`;
-  display.appendChild(p);
-  body.appendChild(display);
+  
   if (computerWins == 5 || playerWins == 5) {
     computerWins == 5 ? displayResults('Computer') : displayResults('Player');
   }
 }
 
-const button1 = document.createElement('button');
-const button2 = document.createElement('button');
-const button3 = document.createElement('button');
-button1.textContent = 'rock';
-button2.textContent = 'paper';
-button3.textContent = 'scissors';
+const rock = document.querySelector('.rock');
+const paper = document.querySelector('.paper');
+const scissor = document.querySelector('.scissor');
 
-const p = document.createElement('p');
+rock.addEventListener('click', (() => {playRound('rock')}));
+paper.addEventListener('click', (() => {playRound('paper')}));
+scissor.addEventListener('click', (() => {playRound('scissors')}));
 
-button1.addEventListener('click', playRound);
-button2.addEventListener('click', playRound);
-button3.addEventListener('click', playRound);
-
-const display = document.createElement('div');
 const body = document.querySelector('body');
-body.appendChild(button1);
-body.appendChild(button2);
-body.appendChild(button3);
+let pScore = document.querySelector('.player').getElementsByTagName('p')[1];
+let cScore = document.querySelector('.computer').getElementsByTagName('p')[1];
+
+
+//text fade in animation
+var wrapper = document.getElementsByClassName("text-animation")[0];
+wrapper.innerHTML = wrapper.textContent.replace(/./g, "<span>$&</span>");
+var spans = wrapper.getElementsByTagName("span");
+for (var i = 0; i < spans.length; i++) {
+  spans[i].style.animationDelay = i*80 + "ms";
+}
 
