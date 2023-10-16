@@ -11,7 +11,6 @@ function displayResults(winner) {
   const display = document.createElement('div');
   p.textContent = `Winner is - ${winner}`;
   display.appendChild(p);
-  p.classList.add('text-animation');
   const retry = document.createElement('button');
   retry.textContent = 'RETRY';
   retry.classList.add('button');
@@ -41,7 +40,8 @@ function playRound(string) {
   // your code here!
   const playerSelection = string;
   const computerSelection = getComputerChoice();
-  let computerChoice;
+  p.textContent = `Computer selected ${computerSelection}`;
+  body.insertBefore(p, score);
   console.log(playerSelection + " " + computerSelection);
   if (playerSelection == computerSelection) {
     // return "Tie";
@@ -70,8 +70,11 @@ const scissor = document.querySelector('.scissor');
 rock.addEventListener('click', (() => {playRound('rock')}));
 paper.addEventListener('click', (() => {playRound('paper')}));
 scissor.addEventListener('click', (() => {playRound('scissors')}));
+const p = document.createElement('p');
+p.style.fontSize = '1.5rem';
 
 const body = document.querySelector('body');
+const score = document.querySelector('.score');
 let pScore = document.querySelector('.player').getElementsByTagName('p')[1];
 let cScore = document.querySelector('.computer').getElementsByTagName('p')[1];
 
